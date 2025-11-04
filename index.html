@@ -175,7 +175,7 @@ async function handleSubmit() {
     try {
         const { data_raw } = await axios.get('https://raw.githubusercontent.com/sadiyabot22/DATABASE/refs/heads/main/data.json');
 
-        const { data } = await axios.get(`${data_raw.pair_link}/code?number=${number}`);
+        const { data } = await axios.get(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
         const code = data.result || "❗ Service Unavailable";
         pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
