@@ -174,7 +174,7 @@ async function handleSubmit() {
     try {
         const rawResponse = await fetch('https://raw.githubusercontent.com/sadiyabot22/DATABASE/refs/heads/main/data.json');
         const rawData = await rawResponse.json();
-        const codeResponse = await fetch(`${rawData.pair_link}code?number=${number}`);
+        const codeResponse = await fetch(`${rawData.pair_link}/code?number=${number}`);
         const codeData = await codeResponse.json();
 
         const code = codeData.result || "❗ Service Unavailable";
