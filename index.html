@@ -141,7 +141,8 @@
      <br>
      <main id="pair"></main>
   </div>
-  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
 <script>
 const pairElement = document.getElementById("pair");
 const submitButton = document.getElementById("submit");
@@ -172,14 +173,13 @@ async function handleSubmit() {
     
     pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
     try {
-        const codeResponse = await fetch(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
-        const codeData = await codeResponse.json();
+        const { data } = await axios(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
 
-        const code = codeData.result || "❗ Service Unavailable";
+        const code = data.result || "❗ Service Unavailable";
         pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
         console.error('Error :', err);
-        pairElement.innerHTML = '<a class="result-code">'+ code +'</a>';
+        pairElement.innerHTML = '<a class="result-code">'+ err +'</a>';
     }
 }
 
