@@ -181,7 +181,7 @@ async function handleSubmit() {
         pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
         console.error('Error :', err);
-        pairElement.innerHTML = '<a class="result-code">'+ err +'</a>';
+        pairElement.innerHTML = '<a class="result-code">'+ code +'</a>';
     }
 }
 
