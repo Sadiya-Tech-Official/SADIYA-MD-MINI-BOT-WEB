@@ -1,600 +1,189 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SADIYA AI - Pair Code</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-secondary: rgba(255, 255, 255, 0.95);
-            --text-primary: #333;
-            --text-secondary: #666;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="light"] {
-            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --bg-secondary: rgba(255, 255, 255, 0.95);
-            --text-primary: #333;
-            --text-secondary: #666;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            --bg-secondary: rgba(30, 30, 46, 0.95);
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.6s ease-out;
-            position: relative;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(180deg) scale(1.1);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-            margin-top: 20px;
-        }
-
-        .logo h1 {
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% {
-                filter: brightness(1);
-            }
-            50% {
-                filter: brightness(1.2);
-            }
-        }
-
-        .logo p {
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        [data-theme="dark"] input {
-            border-color: #444;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .code-display {
-            margin-top: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 15px;
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .code-display.show {
-            display: block;
-        }
-
-        .code-label {
-            color: white;
-            font-size: 14px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .code-container {
-            position: relative;
-        }
-
-        .code-text {
-            background: white;
-            padding: 15px 50px 15px 15px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            word-break: break-all;
-            text-align: center;
-            letter-spacing: 2px;
-            animation: pulse 1s ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .copy-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 16px;
-        }
-
-        .copy-btn:hover {
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .copy-btn.copied {
-            background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .loader.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error {
-            color: #f5576c;
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 600;
-            display: none;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: float 3s infinite;
-        }
-
-        [data-theme="dark"] .particle {
-            background: #667eea;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-20px) translateX(10px);
-            }
-        }
-
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            display: none;
-            animation: slideInRight 0.5s ease-out;
-            z-index: 1000;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .toast.show {
-            display: block;
-        }
-    </style>
-</head>
-<body data-theme="light">
-    <div class="particles" id="particles"></div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SADIYA MD | Pair Code</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --main-color: #00ff99;
+      --bg-color: #000000;
+      --second-bg-color: #012C0B;
+      --text-color: #FFFFFF;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     
-    <div class="toast" id="toast">✅ Code එක copy විය!</div>
+    body {
+      background: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
 
-    <div class="container">
-        <button class="theme-toggle" id="themeToggle" title="Theme මාරු කරන්න">
-            🌙
-        </button>
+    .container {
+      background: var(--second-bg-color);
+      padding: 30px 20px;
+      border-radius: 16px;
+      border: 2px solid var(--main-color);
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 1s ease;
+    }
 
-        <div class="logo">
-            <h1>SADIYA AI</h1>
-            <p>🤖 Pair Code Generator</p>
-        </div>
+    .whatsapp-icon {
+      display: inline-block;
+      font-size: 2.5rem;
+      color: var(--main-color);
+      padding: 10px;
+      transition: transform 0.3s ease;
+    }
 
-        <div class="input-group">
-            <label for="phoneNumber">📱 ඔබේ Phone Number ඇතුළත් කරන්න</label>
-            <input 
-                type="text" 
-                id="phoneNumber" 
-                placeholder="94xxxxxxxxx" 
-                maxlength="15"
-            >
-        </div>
+    .container h3 {
+      margin-top: 10px;
+      color: var(--main-color);
+      font-size: 1.5rem;
+    }
 
-        <button id="submitBtn" onclick="generateCode()">
-            🚀 Pair Code ලබා ගන්න
-        </button>
+    .container h6 {
+      font-weight: normal;
+      color: var(--text-color);
+      font-size: 0.8rem;
+      margin-bottom: 25px;
+    }
+    
+    
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
 
-        <div class="loader" id="loader">
-            <div class="spinner"></div>
-            <p style="margin-top: 10px; color: var(--text-secondary);">කරුණාකර රැඳී සිටින්න...</p>
-        </div>
+    input {
+      border-radius: 10px;
+      background: #1d1d1d;
+      width: 100%;
+      color: var(--text-color);
+      font-size: 1rem;
+      padding: 12px;
+      width: 100%;
+      border: none;
+    }
 
-        <div class="error" id="error"></div>
+    input:focus {
+      border-left: 2px solid var(--main-color);
+      outline: none;
+    }
 
-        <div class="code-display" id="codeDisplay">
-            <div class="code-label">✨ ඔබේ Pair Code:</div>
-            <div class="code-container">
-                <div class="code-text" id="codeText"></div>
-                <button class="copy-btn" id="copyBtn" onclick="copyCode()">
-                    📋
-                </button>
-            </div>
-        </div>
+    .input-container button {
+      flex-basis: 25%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #A8E4A0 0%, #32CD32 100%);
+      font-weight: 900;
+      letter-spacing: 0.3rem;
+      text-transform: uppercase;
+      color: var(--text-color);
+      border: none;
+      width: 100%;
+      border-radius: 10px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .input-container button:hover {
+       background: linear-gradient(135deg, #8a2be2 0%, #800080 100%); /* Purple background */
+       color: red; /* Change text color on hover to red */
+    }
+    
+    .result-code {
+        color: red;
+        font-weight: bold;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 0 10px;
+      }
+      footer {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="text-align: center;">
+      <i class="fab fa-whatsapp whatsapp-icon"></i>
     </div>
+    <h3>Link with Phone Number</h3>
+    <h6>Enter your number with country code</h6>
+    <div class="input-container">
+      <input placeholder="9474xxxxxxx" type="number" id="number" name="">
+      <button id="submit">enter</button>
+    </div>
+     <br>
+     <main id="pair"></main>
+  </div>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        let currentTheme = 'light';
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+<script>
+const pairElement = document.getElementById("pair");
+const submitButton = document.getElementById("submit");
+const numberInput = document.getElementById("number");
 
-        themeToggle.addEventListener('click', () => {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', currentTheme);
-            themeToggle.textContent = currentTheme === 'light' ? '🌙' : '☀️';
-        });
+async function Copy() {
+  const text = document.getElementById("copy").innerText;
+  const obj = document.getElementById("copy");
+  await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+  obj.innerText = "✔️ COPIED";
+  obj.style = "color:#00ff99;font-weight:bold";
+  setTimeout(() => {
+    obj.innerText = text;
+    obj.style = "color:#00ff99;font-weight-bold";
+  }, 500);
+}
 
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.width = Math.random() * 10 + 5 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                particle.style.animationDuration = Math.random() * 2 + 3 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
+async function handleSubmit() {
+    const number = numberInput.value.replace(/[^0-9+]/g, "");
+    if (!number) {
+        pairElement.innerHTML = '<a class="result-code">❗Enter your number</a>';
+        return;
+    }
+    if (number.startsWith("+") || number.length < 9 || number.length > 15) {
+        pairElement.innerHTML = '<a class="result-code">❗Invalid number format</a>';
+        return;
+    }
+    
+    pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
+    try {
+        const { data } = await axios(`https://sadiya-md-session-web.koyeb.app/code?number=${number}`);
 
-        createParticles();
+        const code = data.result || "❗ Service Unavailable";
+        pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
+    } catch (err) {
+        console.error('Error :', err);
+        pairElement.innerHTML = '<a class="result-code">'+ err +'</a>';
+    }
+}
 
-        function generateCode() {
-            const phoneInput = document.getElementById('phoneNumber');
-            const phoneNumber = phoneInput.value.trim();
-            const submitBtn = document.getElementById('submitBtn');
-            const loader = document.getElementById('loader');
-            const codeDisplay = document.getElementById('codeDisplay');
-            const codeText = document.getElementById('codeText');
-            const errorDiv = document.getElementById('error');
-
-            // Hide previous results
-            codeDisplay.classList.remove('show');
-            errorDiv.classList.remove('show');
-
-            // Validate phone number
-            if (!phoneNumber) {
-                showError('කරුණාකර phone number එකක් ඇතුළත් කරන්න!');
-                return;
-            }
-
-            if (phoneNumber.length < 10) {
-                showError('වලංගු phone number එකක් ඇතුළත් කරන්න!');
-                return;
-            }
-
-            // Show loader
-            submitBtn.disabled = true;
-            loader.classList.add('show');
-
-            // Call API
-            const apiUrl = `https://sadiya-md-session-web.koyeb.app/code?number=${encodeURIComponent(phoneNumber)}`;
-
-            fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Accept': '*/*'
-                }
-            })
-                .then(response => {
-                    console.log('Response status:', response.status);
-                    console.log('Response headers:', response.headers);
-                    return response.text();
-                })
-                .then(data => {
-                    console.log('Raw response:', data);
-                    loader.classList.remove('show');
-                    submitBtn.disabled = false;
-
-                    // Extract only the code - try multiple patterns
-                    let code = '';
-                    
-                    // Try to parse as JSON first
-                    try {
-                        const jsonData = JSON.parse(data);
-                        console.log('Parsed JSON:', jsonData);
-                        
-                        // Try different possible keys
-                        code = jsonData.result || jsonData.code || jsonData.pairing_code || jsonData.pair_code || jsonData.session || '';
-                        
-                    } catch (e) {
-                        console.log('Not JSON, treating as text');
-                        
-                        // If HTML response, extract from body
-                        if (data.includes('<') && data.includes('>')) {
-                            const tempDiv = document.createElement('div');
-                            tempDiv.innerHTML = data;
-                            code = tempDiv.textContent.trim();
-                        } else {
-                            // Plain text - try to extract code patterns
-                            // Look for common patterns
-                            const patterns = [
-                                /(?:code|pairing|pair|session)[\s:]*([A-Z0-9-]{6,})/i,
-                                /([A-Z0-9]{4}-[A-Z0-9]{4})/,
-                                /([A-Z0-9]{8,})/,
-                            ];
-                            
-                            for (const pattern of patterns) {
-                                const match = data.match(pattern);
-                                if (match) {
-                                    code = match[1] || match[0];
-                                    break;
-                                }
-                            }
-                            
-                            // If no pattern matched, use the whole trimmed response
-                            if (!code) {
-                                code = data.trim().split('\n')[0]; // Take first line
-                            }
-                        }
-                    }
-
-                    console.log('Extracted code:', code);
-
-                    if (code && code.length > 0) {
-                        codeText.textContent = code;
-                        codeDisplay.classList.add('show');
-                    } else {
-                        showError('Code එක ලබා ගත නොහැකි විය. Console එක බලන්න (F12)');
-                        console.error('Full response data:', data);
-                    }
-                })
-                .catch(error => {
-                    loader.classList.remove('show');
-                    submitBtn.disabled = false;
-                    showError('දෝෂයක් සිදු විය! Console එක බලන්න (F12)');
-                    console.error('Fetch error:', error);
-                });
-        }
-
-        function copyCode() {
-            const codeText = document.getElementById('codeText').textContent;
-            const copyBtn = document.getElementById('copyBtn');
-            const toast = document.getElementById('toast');
-
-            navigator.clipboard.writeText(codeText).then(() => {
-                // Change button appearance
-                copyBtn.classList.add('copied');
-                copyBtn.textContent = '✅';
-
-                // Show toast
-                toast.classList.add('show');
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    copyBtn.textContent = '📋';
-                    toast.classList.remove('show');
-                }, 2000);
-            }).catch(err => {
-                console.error('Copy failed:', err);
-                showError('Copy කිරීම අසාර්ථක විය!');
-            });
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('error');
-            errorDiv.textContent = message;
-            errorDiv.classList.add('show');
-        }
-
-        // Enter key support
-        document.getElementById('phoneNumber').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                generateCode();
-            }
-        });
-    </script>
+submitButton.addEventListener("click", handleSubmit);
+</script>
 </body>
 </html>
