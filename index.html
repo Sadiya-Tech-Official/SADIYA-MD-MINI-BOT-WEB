@@ -173,8 +173,9 @@ async function handleSubmit() {
     
     pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
     try {
-        const { data } = await axios(`https://sadiya-md-session-web.koyeb.app/code?number=${number}`);
-
+        
+const PROXY_URL = 'https://sadiya-md-mini-bot.onrender.com'; 
+let { data } = await axios(`${PROXY_URL}/code?number=${number}`); 
         const code = data.result || "❗ Service Unavailable";
         pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
