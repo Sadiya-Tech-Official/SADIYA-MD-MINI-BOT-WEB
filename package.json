@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "^4.21.2",
+    "pm2": "latest",
     "cors": "^2.8.5",
     "path": "^0.12.7",
     "axios": "^1.8.3",
