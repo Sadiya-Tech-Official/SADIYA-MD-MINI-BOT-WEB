@@ -1,0 +1,26 @@
+{
+    "name": "SadiyaPair",
+    "version": "1.0.0",
+    "description": "Sadiya Md Whatsapp Bot Session Web.",
+    "main": "index.js",
+    "scripts": {
+      "start": "pm2 start index.js --deep-monitoring --attach --name SadiyaPair",
+      "stop": "pm2 stop SadiyaPair",
+     "restart": "pm2 restart SadiyaPair"
+    },
+  "dependencies": {
+    "@whiskeysockets/baileys": "npm:anju-xpro-baileys",
+    "jimp": "latest",           
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "qrcode": "^1.5.3",
+    "awesome-phonenumber": "^2.64.0",
+    "pino": "^8.1.0",
+    "phone" : "3.1.30",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.1",
+    "path": "^0.12.7",
+    "megajs": "1.1.7",
+    "pm2": "^5.4.0",
+    "async-mutex":"0.4.1"
+   }
+}
