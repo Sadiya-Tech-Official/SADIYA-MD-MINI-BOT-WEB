@@ -1,19 +1,20 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
 const app = express();
-const path = require('path');
+__path = process.cwd()
+const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 8000;
 
-app.use(cors());
-app.use(express.json());
+require('events').EventEmitter.defaultMaxListeners = 500;
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on port ${process.env.PORT || 3000}`);
+app.use('/', async (req, res, next) => {
+    res.sendFile(__path + '/index.html')
 });
 
-//==================html================================================================================
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:` + PORT)
 });
-//=====================================================================================================
 
 module.exports = app;
