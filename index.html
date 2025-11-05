@@ -142,98 +142,48 @@
      <main id="pair"></main>
   </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
 <script>
-// --- DOM Elements (use const for elements) ---
 const pairElement = document.getElementById("pair");
 const submitButton = document.getElementById("submit");
 const numberInput = document.getElementById("number");
 
-// --- Configuration ---
-// ⚠️ Ensure this is the correct, running URL of your proxy server
-const PROXY_URL = 'https://sadiya-md-mini-bot.onrender.com'; 
-
-// --- Copy Function ---
 async function Copy() {
+  const text = document.getElementById("copy").innerText;
   const obj = document.getElementById("copy");
-  if (!obj) return; // Safety check
-
-  const originalText = obj.innerHTML;
-  
-  // Extract only the code (the content within the <span> tag)
-  const codeSpan = obj.querySelector('span');
-  if (codeSpan) {
-      await navigator.clipboard.writeText(codeSpan.innerText.trim());
-  }
-
-  obj.innerHTML = 'CODE: <span style="color:#00ff99;font-weight:bold">✔️ COPIED</span>';
-  
+  await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+  obj.innerText = "✔️ COPIED";
+  obj.style = "color:#00ff99;font-weight:bold";
   setTimeout(() => {
-    obj.innerHTML = originalText; // Restore original HTML
-  }, 800);
+    obj.innerText = text;
+    obj.style = "color:#00ff99;font-weight-bold";
+  }, 500);
 }
 
-// --- Submit Handler ---
-async function handleSubmit(e) {
-    e.preventDefault(); // Good practice to include the event object
-    
-    // 1. Clean and Validate Input
-    // Allow only digits and remove leading '+' if present for API consistency
-    let number = numberInput.value.replace(/[^0-9]/g, ""); 
-
-    if (number.length === 0) {
-        pairElement.innerHTML = '<a class="result-code">❗ Enter your WhatsApp number.</a>';
+async function handleSubmit() {
+    const number = numberInput.value.replace(/[^0-9+]/g, "");
+    if (!number) {
+        pairElement.innerHTML = '<a class="result-code">❗Enter your number</a>';
         return;
     }
-    // Simple validation for international numbers (8 to 15 digits)
-    if (number.length < 8 || number.length > 15) {
-        pairElement.innerHTML = '<a class="result-code" style="color:red;">❗ Invalid number format (e.g., 9477xxxxxxx).</a>';
+    if (number.startsWith("+") || number.length < 9 || number.length > 15) {
+        pairElement.innerHTML = '<a class="result-code">❗Invalid number format</a>';
         return;
     }
     
-    // 2. Display Loading State
-    pairElement.innerHTML = '<a class="result-code" style="color:#00ff99;">🔎 Please Wait...</a>';
-    
-    // 3. Axios Request with Proxy
+    pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
     try {
-        // Construct the full URL for the proxy
-        const fullProxyUrl = `${PROXY_URL}/code?number=${number}`;
-        
-        let { data } = await axios.get(fullProxyUrl);
-        
-        // Use data.code if that's what your API returns, or data.result if that's correct
-        // I'll stick to 'result' based on your previous code, but added a fallback check.
-        const code = data.result || data.code || "❗ Service Unavailable";
-        
-        if (code.startsWith("❗")) {
-            // Display specific error if API returned it
-            pairElement.innerHTML = `<a class="result-code" style="color:red;">${code}</a>`;
-        } else {
-            // Display the Pair Code
-            pairElement.innerHTML = 
-                `<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">
-                    CODE: <span style="color:#00ff99;font-weight:bold">${code}</span>
-                </font><br>`;
-        }
-        
+        const { data } = await axios(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
+
+        const code = data.result || "❗ Service Unavailable";
+        pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
-        console.error('Axios Error:', err);
-        // Better error message for the user
-        let errorMsg = "🔴 Network Error! Check your proxy URL or server status.";
-        
-        if (err.response && err.response.status) {
-            errorMsg = `🔴 Server Error: ${err.response.status} (${err.response.statusText})`;
-        } else if (err.request) {
-            // This is the classic CORS/Network Error you were getting
-            errorMsg = '🔴 Connection failed. Proxy server not reachable or CORS issue.';
-        }
-        
-        pairElement.innerHTML = `<a class="result-code" style="color:red;">${errorMsg}</a>`;
+        console.error('Error :', err);
+        pairElement.innerHTML = '<a class="result-code">'+ err +'</a>';
     }
 }
 
 submitButton.addEventListener("click", handleSubmit);
 </script>
-
 </body>
 </html>
