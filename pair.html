@@ -174,7 +174,7 @@ async function handleSubmit() {
     pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
     try {
         const { data } = await axios.get(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
-        const code = data.code || "❗ Service Unavailable";
+        const code = data.code || data.result || "❗ Service Unavailable";
         pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
     } catch (err) {
         console.error('Error :', err);
