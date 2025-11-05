@@ -1,188 +1,205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SADIYA MD | Pair Code</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deploy Your Own Whatsapp Bot — Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --main-color: #00ff99;
-      --bg-color: #000000;
-      --second-bg-color: #012C0B;
-      --text-color: #FFFFFF;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      background: var(--bg-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-size: cover;
-      font-family: Arial, sans-serif;
-    }
+:root{
+    --primary: #00f3ff;
+    --secondary: #ff00ff;
+    --glass: rgba(255, 255, 255, 0.08);
+    --border-color: rgba(255,255,255,0.1);
+    --bg-color: #0A0A0A;
+    --text-color: #ffffff;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    .container {
-      background: var(--second-bg-color);
-      padding: 30px 20px;
-      border-radius: 16px;
-      border: 2px solid var(--main-color);
-      width: 90%;
-      max-width: 380px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      animation: fadeIn 1s ease;
-    }
+html {
+    scroll-behavior: smooth;
+}
 
-    .whatsapp-icon {
-      display: inline-block;
-      font-size: 2.5rem;
-      color: var(--main-color);
-      padding: 10px;
-      transition: transform 0.3s ease;
-    }
+body {
+    overflow: auto;
+    user-select: none;
+    background: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    position: relative;
+}
+a {
+    text-decoration: none;
+}
+/* Header */
+nav{ 
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 1rem 12%;
+    background-color: var(--glass);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid var(--border-color);
+}
+.logo{
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
 
-    .container h3 {
-      margin-top: 10px;
-      color: var(--main-color);
-      font-size: 1.5rem;
-    }
+/* container */
+.container{
+    padding: 100px 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.card{
+    background: var(--card);
+    border-radius: 10px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    display: block;
+    text-align: center;
+    padding: 26px 18px;
+    margin-bottom: 18px;
+}
+.home-img img{
+    width: 80vw;
+    border-radius: 35px;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 25px var(--primary);
+    border: 2px solid var(--primary);
+    animation: imgGlow 2s ease-in-out infinite alternate;
+}
+.card h2{
+    margin: 0;
+    font-size: 25px;
+    color: var(--secondary);
+}
+.card p{
+    color: var(--muted);
+    margin: 10px auto 18px;
+    max-width: 680px;
+    font-size: 15px;
+}
 
-    .container h6 {
-      font-weight: normal;
-      color: var(--text-color);
-      font-size: 0.8rem;
-      margin-bottom: 25px;
-    }
-    
-    
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 35px;
+    margin: 15px 0;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.pair {
+    background: #e6fff5;
+    border: 2px solid #0ca678;
+    color: #0ca678;
+}
+.setting {
+    background: #00c853;
+    color: #ffffff;
+}
+.group {
+    background: #216cff;
+    color: #ffffff;
+}
 
-    input {
-      border-radius: 10px;
-      background: #1d1d1d;
-      width: 100%;
-      color: var(--text-color);
-      font-size: 1rem;
-      padding: 12px;
-      width: 100%;
-      border: none;
-    }
+.warning{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b45309;
+    margin-top: 14px;
+    justify-content: center;
+}
 
-    input:focus {
-      border-left: 2px solid var(--main-color);
-      outline: none;
-    }
 
-    .input-container button {
-      flex-basis: 25%;
-      padding: 1rem;
-      background: linear-gradient(135deg, #A8E4A0 0%, #32CD32 100%);
-      font-weight: 900;
-      letter-spacing: 0.3rem;
-      text-transform: uppercase;
-      color: var(--text-color);
-      border: none;
-      width: 100%;
-      border-radius: 10px;
-      transition: all 0.2s ease-in-out;
-    }
+/* footer */
+footer{
+    margin-top: 36px;
+    padding: 22px;
+    border-radius: 8px;
+    background-color: var(--glass);
+    backdrop-filter: blur(20px);
+    color: white;
+    text-align: center
+}
+.icons{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+}
 
-    .input-container button:hover {
-       background: linear-gradient(135deg, #8a2be2 0%, #800080 100%); /* Purple background */
-       color: red; /* Change text color on hover to red */
+/* small screens */
+@media (max-width:560px){
+    .card h2{
+        font-size: 25px;
     }
-    
-    .result-code {
-        color: red;
-        font-weight: bold;
+    .wrap{
+        padding: 0 14px;
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .card{
+        padding:18px;
     }
-
-    @media (max-width: 500px) {
-      .container {
-        margin: 0 10px;
-      }
-      footer {
-        font-size: 0.7rem;
-      }
-    }
+}
   </style>
 </head>
 <body>
+  <nav>
+    <div class="logo">SADIYA-MD</div>
+  </nav>
 
   <div class="container">
-    <div style="text-align: center;">
-      <i class="fab fa-whatsapp whatsapp-icon"></i>
-    </div>
-    <h3>Link with Phone Number</h3>
-    <h6>Enter your number with country code</h6>
-    <div class="input-container">
-      <input placeholder="9474xxxxxxx" type="number" id="number" name="">
-      <button id="submit">enter</button>
-    </div>
-     <br>
-     <main id="pair"></main>
+    <section class="card">
+      <div class="home-img">
+        <img src="https://i.ibb.co/N6Hg4QWN/Sadiya-Md.jpg" alt="">
+      </div>
+      <h2>SADIYA MD MINI BOT</h2>
+      <p>If you are a first-time WhatsApp bot creator, click the Pair Bot button. Click the Settings button to configure your bot's settings.</p>
+
+      <a href="" class="btn pair">🔗 Pair Bot</a>
+      <a href="/login.html" class="btn setting">🚀 Bot Setting</a>
+      <a href="" class="btn group">📱 WhatsApp Channel</a>
+
+      <div id="botCount" class="warning">Loading deployed bots...</div>
+    </section>
   </div>
-  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+
+    <footer>
+      <div style="font-weight:600">© 2025 | Dew-MD by Hansa Dewmina - Dew Coders LK</div>
+      <div style="font-size:13px;margin-top:6px">Made for All Whatsapp Users In World</div>
+      <div class="icons">⚙️ 📞 ▶️ ⚪️</div>
+    </footer>
 <script>
-const pairElement = document.getElementById("pair");
-const submitButton = document.getElementById("submit");
-const numberInput = document.getElementById("number");
+const axios = require('axios');
 
-async function Copy() {
-  const text = document.getElementById("copy").innerText;
-  const obj = document.getElementById("copy");
-  await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-  obj.innerText = "✔️ COPIED";
-  obj.style = "color:#00ff99;font-weight:bold";
-  setTimeout(() => {
-    obj.innerText = text;
-    obj.style = "color:#00ff99;font-weight-bold";
-  }, 500);
+async function fetchBotCount() {
+  try {
+    const response = await axios.get("https://sadiya-md-mini-bot.onrender.com/active");
+    const data = await response.data.result; 
+    document.getElementById("botCount").innerText = `🟢 Currently deployed bots: ${data}`;
+  } catch (e) {
+    document.getElementById("botCount").innerText = "⚠️ Unable"+ e +" to fetch bot count.";
+  }
 }
-
-async function handleSubmit() {
-    const number = numberInput.value.replace(/[^0-9+]/g, "");
-    if (!number) {
-        pairElement.innerHTML = '<a class="result-code">❗Enter your number</a>';
-        return;
-    }
-    if (number.startsWith("+") || number.length < 9 || number.length > 15) {
-        pairElement.innerHTML = '<a class="result-code">❗Invalid number format</a>';
-        return;
-    }
     
-    pairElement.innerHTML = '<a class="result-code">🔎 Please Wait...</a>';
-    try {
-        const { data } = await axios(`https://sadiya-md-mini-bot.onrender.com/code?number=${number}`);
-        const code = data.code || data.result || "❗ Service Unavailable";
-        pairElement.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:#00ff99;font-weight:bold">' + code + '</span></font><br>';
-    } catch (err) {
-        console.error('Error :', err);
-        pairElement.innerHTML = '<a class="result-code">'+err'+</a>';
-    }
-}
-
-submitButton.addEventListener("click", handleSubmit);
+fetchBotCount();
+setInterval(fetchBotCount, 5000);
 </script>
 </body>
 </html>
